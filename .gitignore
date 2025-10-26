@@ -1,0 +1,21 @@
+# Unity generated / do not commit
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild*/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+obj/
+.vs/
+
+# IDE junk
+*.csproj
+*.sln
+*.user
+*.unityproj
+.vscode/
+.idea/
+
+# OS junk
+.DS_Store
+Thumbs.db
