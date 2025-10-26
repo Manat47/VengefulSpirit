@@ -2,20 +2,23 @@
 
 public class PickupItem : MonoBehaviour
 {
-    public string itemId = "KeyFragment"; // ระบุชนิด เช่น "KeyFragment", "Battery", etc.
+    public string itemId = "KeyFragment";
 
     private void OnTriggerEnter(Collider other)
     {
-        // ตรวจว่า Player ชน
         if (other.CompareTag("Player"))
         {
-            // บอก GameManager ว่าเก็บได้แล้ว
-            GameManager.Instance.CollectItem(itemId);
+            // ป้องกันเผื่อ GameManager ยังไม่พร้อม
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.CollectItem(itemId);
+                Debug.Log("Picked up: " + itemId);
+            }
+            else
+            {
+                Debug.LogWarning("No GameManager.Instance in scene when picking up " + itemId);
+            }
 
-            // ทำเอฟเฟกต์ (เช่นเสียงหรือเอฟเฟกต์วิบวับได้ทีหลัง)
-            Debug.Log("Picked up: " + itemId);
-
-            // ทำลายตัวเองออกจากซีน
             Destroy(gameObject);
         }
     }
