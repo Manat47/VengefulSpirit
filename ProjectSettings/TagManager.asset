@@ -3,19 +3,25 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - HidingSpot
+  - Pickup
+  - Door
+  - SoundBlock
+  - Players
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacles
+  - VisionBlock
+  - SoundBlock
+  - Interactable
+  - Players
   - 
   - 
   - 
