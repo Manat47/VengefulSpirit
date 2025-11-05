@@ -3,7 +3,7 @@ using UnityEngine;
 public class StraightMover : MonoBehaviour
 {
     public Rigidbody rb;
-    public float speed = 12f;
+    public float speed = 40f;
     void Reset() { rb = GetComponent<Rigidbody>(); }
     void FixedUpdate()
     {

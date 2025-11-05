@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6276392683952270435}
   m_Layer: 0
   m_Name: PickUp_Damaged
-  m_TagString: Untagged
+  m_TagString: TargetCar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -188,17 +188,13 @@ MonoBehaviour:
   cart: {fileID: 0}
   rb: {fileID: 716291807}
   lateral: {fileID: 4888556755690502}
+  blackoutPanel: {fileID: 0}
+  crashTarget: {fileID: 0}
+  crashHomingSpeed: 15
+  endGameScreen: {fileID: 0}
+  scrollingText: {fileID: 0}
+  scrollSpeed: 50
   normalSpeed: 12
-  blackoutSpeed: 10
-  veerCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  veerWidth: 2
-  veerDuration: 2
-  physicsEnableLead: 0.3
 --- !u!1 &1052111476793010
 GameObject:
   m_ObjectHideFlags: 0
