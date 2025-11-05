@@ -7,6 +7,10 @@ public class EnemyHearing : MonoBehaviour
     public float patrolWait = 2f;
     public Transform[] patrolPoints;
 
+    [Header("Animation")]
+    public Animator anim; // <- ดราก Animator ของซอมบี้ลง Inspector
+    readonly int hashIsChasing = Animator.StringToHash("IsChasing");
+
     NavMeshAgent agent;
     Transform player;
     PlayerNoise playerNoise;
@@ -23,39 +27,58 @@ public class EnemyHearing : MonoBehaviour
 
     void Update()
     {
-        // 1) ถ้า player ส่งเสียง ให้วิ่งไปตรงนั้น
+        bool heardPlayer = false;
+
         if (playerNoise != null)
         {
             float noiseRadius = playerNoise.CurrentNoiseRadius * hearRangeMultiplier;
             float dist = Vector3.Distance(transform.position, player.position);
 
-            if (dist <= noiseRadius && noiseRadius > 0f)
+            if (noiseRadius > 0f && dist <= noiseRadius)
             {
-                agent.speed = 4.0f; // โหมดล่า
-                agent.SetDestination(player.position);
-                return;
+                heardPlayer = true;
             }
         }
 
-        // 2) ถ้าไม่ได้ยินเสียง -> เดิน patrol ช้า ๆ
-        Patrol();
+        if (heardPlayer)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            Patrol();
+        }
+    }
+
+    void ChasePlayer()
+    {
+        agent.speed = 4.0f;
+        agent.SetDestination(player.position);
+
+        if (anim != null)
+            anim.SetBool(hashIsChasing, true); // บอก Animator ให้เข้า angry
     }
 
     void Patrol()
     {
-        if (patrolPoints == null || patrolPoints.Length == 0) return;
-
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        // เดินตาม patrol points ปกติ
+        if (patrolPoints != null && patrolPoints.Length > 0)
         {
-            waitTimer += Time.deltaTime;
-            agent.speed = 2.0f;
-
-            if (waitTimer >= patrolWait)
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
-                patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
-                agent.SetDestination(patrolPoints[patrolIndex].position);
-                waitTimer = 0f;
+                waitTimer += Time.deltaTime;
+                agent.speed = 2.0f;
+
+                if (waitTimer >= patrolWait)
+                {
+                    patrolIndex = (patrolIndex + 1) % patrolPoints.Length;
+                    agent.SetDestination(patrolPoints[patrolIndex].position);
+                    waitTimer = 0f;
+                }
             }
         }
+
+        if (anim != null)
+            anim.SetBool(hashIsChasing, false); // กลับ idle
     }
 }

@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int totalKeyFragmentsNeeded = 3;
     [SerializeField] private int collectedKeyFragments = 0;
 
+    [Header("Final Key")]
+    public bool hasCarKey = false;   // กุญแจรถ (field ธรรมดา ใช้ Header ได้)
+
     private void Awake()
     {
         // Simple Singleton
@@ -18,32 +21,31 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        // ถ้าต้องการให้ไม่โดนลบตอนเปลี่ยนซีนในอนาคต:
-        // DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
-    // เรียกจาก PickupItem เมื่อผู้เล่นชน key fragment
     public void CollectItem(string itemId)
     {
         if (itemId == "KeyFragment")
         {
             collectedKeyFragments++;
-
-            // กันไม่ให้เกิน max
             if (collectedKeyFragments > totalKeyFragmentsNeeded)
                 collectedKeyFragments = totalKeyFragmentsNeeded;
 
             Debug.Log($"Key Fragment Collected: {collectedKeyFragments}/{totalKeyFragmentsNeeded}");
         }
+        else if (itemId == "CarKey")
+        {
+            hasCarKey = true;
+            Debug.Log("Car key collected.");
+        }
     }
 
-    // ใช้เช็คตอนเข้า EscapeZone
     public bool HasAllKeyFragments()
     {
         return collectedKeyFragments >= totalKeyFragmentsNeeded;
     }
 
-    // ===== HUD เรียกถามข้อมูลผ่าน 2 ฟังก์ชันนี้ =====
     public int GetCollectedFragments()
     {
         return collectedKeyFragments;
